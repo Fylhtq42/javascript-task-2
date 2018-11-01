@@ -11,14 +11,6 @@ const isStar = true;
  */
 let phoneBook = {};
 
-function createRecord(name, email) {
-    let record = {};
-    record.name = name;
-    record.email = email;
-
-    return record;
-}
-
 var regexGoodPhone = /^\d{10}$/;
 
 /**
@@ -32,7 +24,10 @@ function add(phone, name, email) {
     if (!name || phoneBook[phone] || !regexGoodPhone.test(phone)) {
         return false;
     }
-    phoneBook[phone] = createRecord(name, email);
+    phoneBook[phone] = {
+        name,
+        email
+    };
 
     return true;
 }
@@ -49,7 +44,10 @@ function update(phone, name, email) {
         return false;
     }
     if (name !== undefined && name !== '') {
-        phoneBook[phone] = createRecord(name, email);
+        phoneBook[phone] = {
+            name,
+            email
+        };
 
         return true;
     }
@@ -128,7 +126,11 @@ function takeAllRecords() {
     let keys = Object.keys(phoneBook);
     for (let i = 0; i < keys.length; i++) {
         let value = phoneBook[keys[i]];
-        records.push(createFindRecord(keys[i], value.name, value.email));
+        records.push({
+            name: value.name,
+            email: value.email,
+            phone: keys[i]
+        });
     }
 
     return records;
